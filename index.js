@@ -9,6 +9,8 @@ const port = 3000;
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+// List all tours
 app.get("/api/v1/tours", (req, res) => {
   res.status(200).json({
     status: "success",
@@ -19,6 +21,19 @@ app.get("/api/v1/tours", (req, res) => {
   });
 });
 
+// List any tour for id
+
+app.get("/api/v1/tours/:id", (req, res) => {
+  const id = req.params.id * 1;
+  const tourData = tours.find((el) => el.id === id);
+  console.log(tourData);
+  res.status(200).json({
+    status: "success",
+    data: {
+      tourData,
+    },
+  });
+});
 app.post("/api/v1/tours", (req, res) => {
   const newTourID = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newTourID }, req.body);
